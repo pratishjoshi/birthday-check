@@ -2,10 +2,13 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Ramsey\Uuid\Exception\BuilderNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 use App\Traits\JSONResponseTrait;
 
@@ -43,7 +46,15 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof ValidationException) {
-            return $this->successAndErrorResponse(422, null, null, $exception);
+            return $this->successAndErrorResponse(422, null, null, $exception->validator->getMessageBag()->getMessages());
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return $this->successAndErrorResponse(422, null, null, ['authentication' => 'Unauthenticated']);
+        }
+
+        if ($exception instanceof RouteNotFoundException) {
+            return $this->successAndErrorResponse(404, null, null, ['route' => 'Route not found']);
         }
 
         return parent::render($request, $exception);

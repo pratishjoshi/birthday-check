@@ -27,7 +27,7 @@ class UserController extends Controller
             $allUserSortedData = collect($allUserData)->sortBy('dob')->values();
             return $this->successAndErrorResponse(200, $allUserSortedData, null, null);
         } catch (\Exception $e) {
-            return $this->successAndErrorResponse(422, null, null, $e);
+            return $this->successAndErrorResponse(422, null, null, $e->getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
             ]);
             return $this->successAndErrorResponse(200, null, 'New User Created', null);
         } catch (\Exception $e) {
-            return $this->successAndErrorResponse(422, null, null, $e);
+            return $this->successAndErrorResponse(422, null, null, $e->getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ class UserController extends Controller
         try {
             return $this->successAndErrorResponse(200, $user, null, null);
         } catch (\Exception $e) {
-            return $this->successAndErrorResponse(422, null, null, $e);
+            return $this->successAndErrorResponse(422, null, null, $e->getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
             ]);
             return $this->successAndErrorResponse(200, null, 'User Updated', null);
         } catch (\Exception $e) {
-            return $this->successAndErrorResponse(422, null, null, $e);
+            return $this->successAndErrorResponse(422, null, null, $e->getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ class UserController extends Controller
             $user->delete();
             return $this->successAndErrorResponse(200, null, 'User Deleted', null);
         } catch (\Exception $e) {
-            return $this->successAndErrorResponse(422, null, null, $e);
+            return $this->successAndErrorResponse(422, null, null, $e->getMessage());
         }
     }
 }

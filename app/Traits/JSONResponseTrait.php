@@ -4,11 +4,11 @@ namespace App\Traits;
 
 trait JSONResponseTrait
 {
-    public function successAndErrorResponse($status, $data = null, $message = null, $tryCatchError = null)
+    public function successAndErrorResponse($status, $data = null, $message = null, $errorMessages = null)
     {
-        if ($tryCatchError != null) {
+        if ($errorMessages != null) {
             return response()->json([
-                'error' => $tryCatchError->validator->getMessageBag()->getMessages()
+                'error' => $errorMessages
             ], $status);
         }
         return response()->json([
